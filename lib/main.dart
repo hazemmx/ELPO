@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
+import './modules/text2Sign.dart';
+import './modules/thelivecam.dart';
+import './modules/screenRecog.dart';
 import 'modules/signin_page.dart';
 
 Future<void> main() async {
@@ -18,6 +20,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: LoginPage(),
+      routes: {
+        TheCam.routeName: (context) => TheCam(),
+        SpeechRecognitionScreen.routename: (context) =>
+            SpeechRecognitionScreen(),
+        textToSign.routename: (context) => textToSign()
+      },
     );
   }
 }
