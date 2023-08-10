@@ -57,7 +57,7 @@ class _SpeechRecognitionScreenState extends State<SpeechRecognitionScreen> {
         child: GestureDetector(
           child: CircleAvatar(
               backgroundColor: Theme.of(context).primaryColor,
-              radius: isnotListening ? 35 : 60,
+              radius: isnotListening ? 35 : 65,
               foregroundColor: Colors.white,
               child: isnotListening ? Icon(Icons.mic) : Icon(Icons.mic_none)),
           onTapDown: (details) async {
