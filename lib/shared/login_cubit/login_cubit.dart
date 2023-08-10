@@ -7,7 +7,7 @@ import '../../models/user_model.dart';
 import '../../modules/newscreen2.dart';
 import 'login_states.dart';
 
-class LoginCubit extends Cubit<LoginStates>{
+class LoginCubit extends Cubit<LoginStates> {
   LoginCubit(this.context) : super(LoginInitialState());
 
   final BuildContext context;
@@ -21,30 +21,40 @@ class LoginCubit extends Cubit<LoginStates>{
   bool hidden = true;
   bool hidden2 = true;
 
-  void changeGender(String g){
+  void changeGender(String g) {
     gender = g;
     emit(ChangeGenderState());
   }
 
-  void changePassHidden(){
+  void changePassHidden() {
     hidden = !hidden;
     emit(ChangeButtonIconState());
   }
 
-  void changePassHidden2(){
+  void changePassHidden2() {
     hidden2 = !hidden2;
     emit(ChangeButtonIconState());
   }
 
-  Future<void> registerAccount(TextEditingController nameController, TextEditingController emailController, TextEditingController passController, TextEditingController phoneController, String genderController) async {
+  Future<void> registerAccount(
+      TextEditingController nameController,
+      TextEditingController emailController,
+      TextEditingController passController,
+      TextEditingController phoneController,
+      String genderController) async {
     emit(SignUpLoadingState());
     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(
-        email: emailController.text,
-        password: passController.text)
+            email: emailController.text, password: passController.text)
         .then((value) {
-      print("User with email: ${value.user!.email} and id: ${value.user!.uid} Added Successfully");
-      createAccount(uId: value.user!.uid, name: nameController.text, email: emailController.text, phone: phoneController.text,gender: genderController);
+      print(
+          "User with email: ${value.user!.email} and id: ${value.user!.uid} Added Successfully");
+      createAccount(
+          uId: value.user!.uid,
+          name: nameController.text,
+          email: emailController.text,
+          phone: phoneController.text,
+          gender: genderController);
       emit(SignUpSuccessfullyState());
     }).catchError((error) {
       print(error);
@@ -52,7 +62,11 @@ class LoginCubit extends Cubit<LoginStates>{
   }
 
   Future<void> createAccount(
-      {required String uId, required String name, required String email, required String phone, required String gender}) async {
+      {required String uId,
+      required String name,
+      required String email,
+      required String phone,
+      required String gender}) async {
     UserModel userModel = UserModel(
         uId: uId, name: name, email: email, phone: phone, gender: gender);
 
@@ -68,22 +82,20 @@ class LoginCubit extends Cubit<LoginStates>{
     });
   }
 
-  void loginAccount(TextEditingController emailController,TextEditingController passController){
+  void loginAccount(TextEditingController emailController,
+      TextEditingController passController) {
     emit(LoginLoadingState());
-    FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passController.text
-    ).then((value)
-    {
+    FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+            email: emailController.text, password: passController.text)
+        .then((value) {
       print("user with ${value.user!.email} Signin Successfully Success");
       emit(LoginSuccessfullyState());
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> NewScreen()));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => NewScreen()));
       emit(HomePageState());
-    })
-        .catchError(
-            (error){
-          print(error);
-        });
+    }).catchError((error) {
+      print(error);
+    });
   }
-
 }
